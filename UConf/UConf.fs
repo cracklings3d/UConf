@@ -1,34 +1,42 @@
 ﻿module UConf
 
 open Elmish.WPF
+open ModernWpf.Controls
 
-type ConfSection =
-  | None
-  | CPP
+type NavPage =
+  | Home
+  | Code
+  | CreateClass
+  | CreateModule
+  | Svn
+  | Automation
 
 type Model =
   {
     Count: int
     StepSize: int
-    ConfSection: ConfSection
+    Address: NavPage
   }
 
-let init () = {
-  Count = 0
-  StepSize = 1
-  ConfSection = None
-}
+let init () =
+  {
+    Count = 0
+    StepSize = 1
+    Address = Home
+  }
 
 type Msg =
   | Increment
   | Decrement
   | SetStepSize of int
+  | Navigate of NavPage
 
 let update msg m =
   match msg with
   | Increment -> { m with Count = m.Count + m.StepSize }
   | Decrement -> { m with Count = m.Count - m.StepSize }
   | SetStepSize x -> { m with StepSize = x }
+  | Navigate p -> { m with Address = p }
 
 let bindings () =
   [
@@ -37,11 +45,15 @@ let bindings () =
     |> Binding.oneWay (fun m -> m.Count)
     "StepSize"
     |> Binding.twoWay ((fun m -> float m.StepSize), (fun newVal m -> int newVal |> SetStepSize))
+    "Address"
+    |> Binding.oneWay (fun m -> m.Address.ToString())
 
     // Events
     "Increment" |> Binding.cmd (fun m -> Increment)
     "Decrement" |> Binding.cmd (fun m -> Decrement)
+    "Navigate" |> Binding. (fun m -> m)
   ]
+
 
 let main window =
   WpfProgram.mkSimple init update bindings

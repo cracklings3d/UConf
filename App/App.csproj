@@ -12,4 +12,9 @@
     <ProjectReference Include="..\UConf\UConf.fsproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="res\tsvn-logo.png" />
+    <Resource Include="res\tsvn-logo.png" />
+  </ItemGroup>
+
 </Project>

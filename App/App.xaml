@@ -6,8 +6,9 @@
              StartupUri="MainWindow.xaml">
   <Application.Resources>
     <ResourceDictionary>
+      <ui:BitmapIcon x:Key="SvnLogo" UriSource="ms-appx:///res/tsvn-logo.png" />
       <ResourceDictionary.MergedDictionaries>
-        <ui:ThemeResources />
+        <ui:ThemeResources RequestedTheme="Dark" AccentColor="DodgerBlue" />
         <ui:XamlControlsResources />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
