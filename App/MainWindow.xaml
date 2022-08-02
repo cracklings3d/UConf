@@ -8,7 +8,7 @@
   ui:TitleBar.BackButtonCommand="BrowseBack">
   <DockPanel>
     <TextBlock DockPanel.Dock="Bottom"></TextBlock>
-    <ui:NavigationView SelectionChanged="{Binding Navigate}">
+    <ui:NavigationView>
       <ui:NavigationView.AutoSuggestBox>
         <ui:AutoSuggestBox Name="NavSearchBox" QueryIcon="Find" />
       </ui:NavigationView.AutoSuggestBox>
@@ -24,9 +24,8 @@
       </ui:NavigationView.MenuItems>
     </ui:NavigationView>
 
-    <ui:ScrollViewerEx>
-      <Frame x:Name="NavContent" Padding="10" IsTabStop="True" NavigationUIVisibility="Automatic" />
-    </ui:ScrollViewerEx>
+    <TextBlock Text="{Binding Address}"></TextBlock>
+
     <!-- <ui:SimpleStackPanel Orientation="Horizontal" DockPanel.Dock="Bottom"> -->
     <!--   <TextBlock Text="{Binding CounterValue}" FontSize="20" /> -->
     <!--   <Button Command="{Binding Decrement}" Content="-" /> -->

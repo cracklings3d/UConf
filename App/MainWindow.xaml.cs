@@ -24,7 +24,7 @@ namespace UConfApp {
     }
 
     private void NavigationView_OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args) {
-      throw new NotImplementedException();
+      
     }
   }
 }

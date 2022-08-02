@@ -51,7 +51,16 @@ let bindings () =
     // Events
     "Increment" |> Binding.cmd (fun m -> Increment)
     "Decrement" |> Binding.cmd (fun m -> Decrement)
-    "Navigate" |> Binding. (fun m -> m)
+    "Navigate"
+    |> Binding.cmdParam (fun s m ->
+      match ((s :?> NavigationView).SelectedItem :?>NavigationViewItem).Name with
+      | "NavHome" -> Navigate Home
+      | "NavCode" -> Navigate Code
+      | "NavCreateClass" -> Navigate CreateClass
+      | "NavCreateModule" -> Navigate CreateModule
+      | "NavSvn" -> Navigate Svn
+      | "NavAutomation" -> Navigate Automation
+      | _ -> failwith "Invalid Navigation Address")
   ]
 
 
