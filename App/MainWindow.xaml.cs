@@ -22,9 +22,5 @@ namespace UConfApp {
     public MainWindow() {
       InitializeComponent();
     }
-
-    private void NavigationView_OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args) {
-      
-    }
   }
 }
