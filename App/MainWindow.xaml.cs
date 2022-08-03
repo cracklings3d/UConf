@@ -15,12 +15,12 @@ using System.Windows.Shapes;
 using ModernWpf.Controls;
 
 namespace UConfApp {
-  /// <summary>
-  /// Interaction logic for MainWindow.xaml
-  /// </summary>
-  public partial class MainWindow : Window {
+/// <summary>
+/// Interaction logic for MainWindow.xaml
+/// </summary>
+public partial class MainWindow : Window {
     public MainWindow() {
-      InitializeComponent();
+        InitializeComponent();
     }
-  }
+}
 }

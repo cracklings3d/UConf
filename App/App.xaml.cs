@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 using System.Windows;
 
 namespace UConfApp {
-  /// <summary>
-  /// Interaction logic for App.xaml
-  /// </summary>
-  public partial class App : Application {
+/// <summary>
+/// Interaction logic for App.xaml
+/// </summary>
+public partial class App : Application {
     public App() {
-      this.Activated += StartElmish;
+        this.Activated += StartElmish;
     }
 
     private void StartElmish(object sender, EventArgs e) {
-      this.Activated -= StartElmish;
-      UConf.main(MainWindow);
+        this.Activated -= StartElmish;
+        Core.main(MainWindow);
     }
-  }
+}
 }

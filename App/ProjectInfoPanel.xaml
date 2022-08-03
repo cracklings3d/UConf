@@ -7,12 +7,19 @@
              d:DesignHeight="600" d:DesignWidth="900">
   <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="30"></RowDefinition>
-      <RowDefinition Height="*"></RowDefinition>
+      <RowDefinition Height="30" />
+      <RowDefinition Height="*" />
     </Grid.RowDefinitions>
-    <StackPanel Grid.Row="0" Orientation="Horizontal">
-      <TextBlock Text="{Binding Dir}" HorizontalAlignment="Stretch" />
-      <Button Content="..." Command="{Binding Open}" Width="30"/>
-    </StackPanel>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="36" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" Text="{Binding ProjectUri}" />
+      <Button Grid.Column="1" Content="..." Command="{Binding OpenProject}" />
+    </Grid>
   </Grid>
 </UserControl>

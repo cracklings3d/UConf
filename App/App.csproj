@@ -1,20 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-    <RootNamespace>UConfApp</RootNamespace>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <UseWPF>true</UseWPF>
+        <RootNamespace>UConfApp</RootNamespace>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\UConf\UConf.fsproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\UConf\UConf.fsproj" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="res\tsvn-logo.png" />
-    <Resource Include="res\tsvn-logo.png" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Remove="res\tsvn-logo.png" />
+        <Resource Include="res\tsvn-logo.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Extended.Wpf.Toolkit" Version="4.3.0" />
+    </ItemGroup>
 
 </Project>
