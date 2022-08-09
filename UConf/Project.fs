@@ -4,18 +4,26 @@ open System
 open FSharp.Data
 open FSharp.Data.JsonExtensions
 
-type ModuleType = | Runtime
+type ModuleType =
+  | Runtime
+  | Editor
+  | Unspecified
 
 let parseModuleType str =
   match str with
   | "Runtime" -> Runtime
+  | "Editor" -> Editor
+  | "" -> Unspecified
   | _ -> failwith "Invalid Module Type"
 
-type LoadingPhase = | Default
+type LoadingPhase =
+  | Default
+  | Unspecified
 
 let parseLoadingPhase str =
   match str with
   | "Default" -> Default
+  | "" -> Unspecified
   | _ -> failwith "Invalid Loading Phase"
 
 type ModuleDescriptor =
@@ -23,14 +31,14 @@ type ModuleDescriptor =
     Name: string
     Type: ModuleType
     LoadingPhase: LoadingPhase
-    AdditionalDependencies: string seq
+    AdditionalDependencies: string seq option
   }
 
 type PluginDescriptor =
   {
     Name: string
     Enabled: bool
-    MarketplaceURL: string
+    MarketplaceURL: string option
   }
 
 type Descriptor =
@@ -51,40 +59,37 @@ let isValidProjectDescriptor (file: Uri) =
 
 let parseModuleDescriptor (j: JsonValue) =
   {
-    Name =
-      j?Name
-      |> JsonExtensions.AsString
+    Name = j?Name |> JsonExtensions.AsString
     Type =
       j?Type
       |> JsonExtensions.AsString
       |> parseModuleType
     LoadingPhase =
-      j?Type
+      j?LoadingPhase
       |> JsonExtensions.AsString
       |> parseLoadingPhase
     AdditionalDependencies =
-      j?AdditionalDependencies
-      |> JsonExtensions.AsArray
-      |> Seq.map JsonExtensions.AsString
+      match j.TryGetProperty "AdditionalDependencies" with
+      | None -> None
+      | Some v ->
+        v
+        |> JsonExtensions.AsArray
+        |> Seq.map JsonExtensions.AsString
+        |> Some
   }
 
 let parsePluginDescriptor (j: JsonValue) =
   {
-    Name =
-      j?Name
-      |> JsonExtensions.AsString
-    Enabled =
-      j?Enabled
-      |> JsonExtensions.AsBoolean
+    Name = j?Name |> JsonExtensions.AsString
+    Enabled = j?Enabled |> JsonExtensions.AsBoolean
     MarketplaceURL =
-      j?MarketplaceURL
-      |> JsonExtensions.AsString
+      match j.TryGetProperty "MarketplaceURL" with
+      | None -> None
+      | Some v -> v |> JsonExtensions.AsString |> Some
   }
 
 let parseDescriptor (file: Uri) =
-  assert
-    (file
-     |> isValidProjectDescriptor)
+  assert (file |> isValidProjectDescriptor)
 
   let j_pd =
     file.LocalPath
@@ -92,19 +97,13 @@ let parseDescriptor (file: Uri) =
     |> JsonValue.Parse
 
   {
-    FileVersion =
-      j_pd?FileVersion
-      |> JsonExtensions.AsString
+    FileVersion = j_pd?FileVersion |> JsonExtensions.AsString
     EngineAssociation =
       j_pd?EngineAssociation
       |> JsonExtensions.AsString
       |> Version.Parse
-    Category =
-      j_pd?Category
-      |> JsonExtensions.AsString
-    Description =
-      j_pd?Description
-      |> JsonExtensions.AsString
+    Category = j_pd?Category |> JsonExtensions.AsString
+    Description = j_pd?Description |> JsonExtensions.AsString
     Modules =
       j_pd?Modules
       |> JsonExtensions.AsArray

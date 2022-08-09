@@ -39,11 +39,7 @@
                   FontSize="40"
                   Command="{Binding OpenProject}" Visibility="{Binding VisRequireNoProject}" />
           <Grid Visibility="{Binding VisRequireProject}">
-            <xtk:PropertyGrid>
-              <xtk:PropertyGrid.EditorDefinitions>
-                <xtk:EditorTemplateDefinition TargetProperties="{x:Type }">
-                </xtk:EditorTemplateDefinition>
-              </xtk:PropertyGrid.EditorDefinitions>
+            <xtk:PropertyGrid SelectedObject="{Binding Mode=TwoWay, Path=ProjectDescriptor}">
             </xtk:PropertyGrid>
           </Grid>
         </Grid>

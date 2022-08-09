@@ -40,6 +40,7 @@ type Msg =
   | Increment
   | Decrement
   | SetStepSize of int
+  | SetProjectDescriptor of Project.Descriptor
   | OpenProject
   | ExitProgram
 
@@ -48,6 +49,7 @@ let update msg m =
   | Increment -> { m with Count = m.Count + m.StepSize }
   | Decrement -> { m with Count = m.Count - m.StepSize }
   | SetStepSize x -> { m with StepSize = x }
+  | SetProjectDescriptor d -> { m with ProjectDescriptor = d }
   | OpenProject ->
     let ofd = OpenFileDialog()
     ofd.Filter <- "Unreal Project File|*.uproject"
@@ -77,30 +79,23 @@ let bindings () =
     "CounterValue"
     |> Binding.oneWay (fun m -> m.Count)
     "StepSize"
-    |> Binding.twoWay (
-      (fun m -> float m.StepSize),
-      (fun newVal m ->
-        int newVal
-        |> SetStepSize)
-    )
-    "Log"
-    |> Binding.oneWay (fun m -> m.Log)
+    |> Binding.twoWay ((fun m -> float m.StepSize), (fun newVal m -> int newVal |> SetStepSize))
+    "Log" |> Binding.oneWay (fun m -> m.Log)
 
     // Project Descriptor
-
+    "ProjectDescriptor"
+    |> Binding.twoWay ((fun m -> m.ProjectDescriptor), (fun d m -> d |> SetProjectDescriptor))
 
     "VisRequireProject"
     |> Binding.oneWay (fun m ->
-      let uri_is_valid =
-        m.ProjectUri.AbsoluteUri.EndsWith ".uproject"
+      let uri_is_valid = m.ProjectUri.AbsoluteUri.EndsWith ".uproject"
 
       match uri_is_valid with
       | true -> Visibility.Visible
       | _ -> Visibility.Collapsed)
     "VisRequireNoProject"
     |> Binding.oneWay (fun m ->
-      let uri_is_valid =
-        m.ProjectUri.AbsoluteUri.EndsWith ".uproject"
+      let uri_is_valid = m.ProjectUri.AbsoluteUri.EndsWith ".uproject"
 
       match uri_is_valid with
       | true -> Visibility.Collapsed
@@ -121,14 +116,11 @@ let bindings () =
         "")
 
     // Events
-    "Increment"
-    |> Binding.cmd (fun m -> Increment)
-    "Decrement"
-    |> Binding.cmd (fun m -> Decrement)
+    "Increment" |> Binding.cmd (fun m -> Increment)
+    "Decrement" |> Binding.cmd (fun m -> Decrement)
     "OpenProject"
     |> Binding.cmd (fun m -> OpenProject)
-    "ExitProgram"
-    |> Binding.cmd ExitProgram
+    "ExitProgram" |> Binding.cmd ExitProgram
   ]
 
 let main window =
