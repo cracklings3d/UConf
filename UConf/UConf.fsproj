@@ -7,14 +7,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Project.fs"/>
-        <Compile Include="UConf.fs"/>
+        <Compile Include="Project.fs" />
+        <Compile Include="User.fs" />
+        <Compile Include="UConf.fs" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Elmish.WPF" Version="4.0.0-beta-45"/>
-        <PackageReference Include="FSharp.Data" Version="4.2.9"/>
-        <PackageReference Include="ModernWpfUI" Version="0.9.7-preview.2"/>
+        <PackageReference Include="Elmish.WPF" Version="4.0.0-beta-45" />
+        <PackageReference Include="FSharp.Data" Version="4.2.9" />
+        <PackageReference Include="ModernWpfUI" Version="0.9.7-preview.2" />
     </ItemGroup>
 
 </Project>

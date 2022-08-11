@@ -28,6 +28,8 @@
     <TabControl>
       <TabItem Header="User Settings">
         <Grid Margin="10">
+          <xtk:PropertyGrid />
+          <TextBlock Text=""></TextBlock>
           <!-- <TextBlock> SVN </TextBlock> -->
         </Grid>
       </TabItem>
@@ -39,8 +41,7 @@
                   FontSize="40"
                   Command="{Binding OpenProject}" Visibility="{Binding VisRequireNoProject}" />
           <Grid Visibility="{Binding VisRequireProject}">
-            <xtk:PropertyGrid SelectedObject="{Binding Mode=TwoWay, Path=ProjectDescriptor}">
-            </xtk:PropertyGrid>
+            <xtk:PropertyGrid SelectedObject="{Binding Mode=TwoWay, Path=ProjectDescriptor}" />
           </Grid>
         </Grid>
       </TabItem>
