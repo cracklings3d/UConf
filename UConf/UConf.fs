@@ -11,22 +11,22 @@ open Elmish.WPF
 
 type Model =
   {
-    Log: string
+    Log : string
 
-    mutable UserConf: User.Conf
+    mutable UserConf : User.Conf
 
-    ProjectUri: Uri
-    ProjectDescriptor: Project.Descriptor
+    ProjectUri : Uri
+    ProjectDescriptor : Project.Descriptor
   }
 
 let init () =
   {
     Log = ""
 
-    UserConf = User.LoadConf()
+    UserConf = User.LoadConf ()
 
     ProjectUri = Uri "C:/"
-    ProjectDescriptor = Project.Descriptor()
+    ProjectDescriptor = Project.Descriptor ()
   }
 
 type Msg =
@@ -44,7 +44,7 @@ let update msg m =
     { m with UserConf = u }
   | SetProjectDescriptor d -> { m with ProjectDescriptor = d }
   | OpenProject ->
-    let ofd = OpenFileDialog()
+    let ofd = OpenFileDialog ()
     ofd.Filter <- "Unreal Project File|*.uproject"
     ofd.Multiselect <- false
     ofd.Title <- "Open Unreal project"
@@ -69,15 +69,12 @@ let update msg m =
 
 let bindings () =
   [
-    "Log"
-    |> Binding.oneWay (fun m -> m.Log)
+    "Log" |> Binding.oneWay (fun m -> m.Log)
 
-    "UserConf"
-    |> Binding.twoWay ((fun m -> m.UserConf), (fun u m -> SetUserConf u))
+    "UserConf" |> Binding.twoWay ((fun m -> m.UserConf), (fun u m -> SetUserConf u))
 
     // Project Descriptor
-    "ProjectDescriptor"
-    |> Binding.twoWay ((fun m -> m.ProjectDescriptor), (fun d m -> SetProjectDescriptor d))
+    "ProjectDescriptor" |> Binding.twoWay ((fun m -> m.ProjectDescriptor), (fun d m -> SetProjectDescriptor d))
 
     "VisRequireProject"
     |> Binding.oneWay (fun m ->
@@ -111,14 +108,9 @@ let bindings () =
         "")
 
     // Events
-    "OpenProject"
-    |> Binding.cmd (fun m -> OpenProject)
-    "SaveUserConf"
-    |> Binding.cmd (fun m -> SaveUserConf m.UserConf)
-    "ExitProgram"
-    |> Binding.cmd ExitProgram
+    "OpenProject" |> Binding.cmd (fun m -> OpenProject)
+    "SaveUserConf" |> Binding.cmd (fun m -> SaveUserConf m.UserConf)
+    "ExitProgram" |> Binding.cmd ExitProgram
   ]
 
-let main window =
-  WpfProgram.mkSimple init update bindings
-  |> WpfProgram.startElmishLoop window
+let main window = WpfProgram.mkSimple init update bindings |> WpfProgram.startElmishLoop window

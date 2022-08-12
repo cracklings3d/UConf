@@ -8,6 +8,7 @@ open FSharp.Data
 open FSharp.Data.JsonExtensions
 open FSharp.Json
 
+[<Literal>]
 let ConfFileName = "app.conf"
 
 let ConfFileDir =
