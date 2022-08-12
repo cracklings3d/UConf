@@ -11,9 +11,9 @@ open Elmish.WPF
 
 type Model =
   {
-    Count: int
-    StepSize: int
     Log: string
+
+    mutable UserConf: User.Conf
 
     ProjectUri: Uri
     ProjectDescriptor: Project.Descriptor
@@ -21,34 +21,27 @@ type Model =
 
 let init () =
   {
-    Count = 0
-    StepSize = 1
     Log = ""
+
+    UserConf = User.LoadConf()
+
     ProjectUri = Uri "C:/"
-    ProjectDescriptor =
-      {
-        FileVersion = ""
-        EngineAssociation = Version "5.0"
-        Category = ""
-        Description = ""
-        Modules = []
-        Plugins = []
-      }
+    ProjectDescriptor = Project.Descriptor()
   }
 
 type Msg =
-  | Increment
-  | Decrement
-  | SetStepSize of int
+  | SetUserConf of User.Conf
+  | SaveUserConf of User.Conf
   | SetProjectDescriptor of Project.Descriptor
   | OpenProject
   | ExitProgram
 
 let update msg m =
   match msg with
-  | Increment -> { m with Count = m.Count + m.StepSize }
-  | Decrement -> { m with Count = m.Count - m.StepSize }
-  | SetStepSize x -> { m with StepSize = x }
+  | SetUserConf u -> { m with UserConf = u }
+  | SaveUserConf u ->
+    User.SaveConf u
+    { m with UserConf = u }
   | SetProjectDescriptor d -> { m with ProjectDescriptor = d }
   | OpenProject ->
     let ofd = OpenFileDialog()
@@ -76,26 +69,28 @@ let update msg m =
 
 let bindings () =
   [
-    "CounterValue"
-    |> Binding.oneWay (fun m -> m.Count)
-    "StepSize"
-    |> Binding.twoWay ((fun m -> float m.StepSize), (fun newVal m -> int newVal |> SetStepSize))
-    "Log" |> Binding.oneWay (fun m -> m.Log)
+    "Log"
+    |> Binding.oneWay (fun m -> m.Log)
+
+    "UserConf"
+    |> Binding.twoWay ((fun m -> m.UserConf), (fun u m -> SetUserConf u))
 
     // Project Descriptor
     "ProjectDescriptor"
-    |> Binding.twoWay ((fun m -> m.ProjectDescriptor), (fun d m -> d |> SetProjectDescriptor))
+    |> Binding.twoWay ((fun m -> m.ProjectDescriptor), (fun d m -> SetProjectDescriptor d))
 
     "VisRequireProject"
     |> Binding.oneWay (fun m ->
-      let uri_is_valid = m.ProjectUri.AbsoluteUri.EndsWith ".uproject"
+      let uri_is_valid =
+        m.ProjectUri.AbsoluteUri.EndsWith ".uproject"
 
       match uri_is_valid with
       | true -> Visibility.Visible
       | _ -> Visibility.Collapsed)
     "VisRequireNoProject"
     |> Binding.oneWay (fun m ->
-      let uri_is_valid = m.ProjectUri.AbsoluteUri.EndsWith ".uproject"
+      let uri_is_valid =
+        m.ProjectUri.AbsoluteUri.EndsWith ".uproject"
 
       match uri_is_valid with
       | true -> Visibility.Collapsed
@@ -116,11 +111,12 @@ let bindings () =
         "")
 
     // Events
-    "Increment" |> Binding.cmd (fun m -> Increment)
-    "Decrement" |> Binding.cmd (fun m -> Decrement)
     "OpenProject"
     |> Binding.cmd (fun m -> OpenProject)
-    "ExitProgram" |> Binding.cmd ExitProgram
+    "SaveUserConf"
+    |> Binding.cmd (fun m -> SaveUserConf m.UserConf)
+    "ExitProgram"
+    |> Binding.cmd ExitProgram
   ]
 
 let main window =

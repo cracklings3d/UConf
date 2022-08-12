@@ -9,8 +9,8 @@
   ui:WindowHelper.UseModernWindowStyle="True"
   ui:TitleBar.ExtendViewIntoTitleBar="False"
   mc:Ignorable="d"
-  d:DesignWidth="1280"
-  d:DesignHeight="720"
+  d:DesignWidth="640"
+  d:DesignHeight="360"
   Title="{Binding WindowTitle}">
 
   <DockPanel LastChildFill="True">
@@ -28,9 +28,14 @@
     <TabControl>
       <TabItem Header="User Settings">
         <Grid Margin="10">
-          <xtk:PropertyGrid />
-          <TextBlock Text=""></TextBlock>
-          <!-- <TextBlock> SVN </TextBlock> -->
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Button Grid.Row="0" Content="Save Settings" Command="{Binding SaveUserConf}" HorizontalAlignment="Right"
+                  Margin="10" />
+          <xtk:PropertyGrid Grid.Row="1" ShowSearchBox="False" ShowTitle="False" ShowSortOptions="False"
+                            SelectedObject="{Binding Mode=TwoWay, Path=UserConf}" />
         </Grid>
       </TabItem>
 
@@ -41,7 +46,8 @@
                   FontSize="40"
                   Command="{Binding OpenProject}" Visibility="{Binding VisRequireNoProject}" />
           <Grid Visibility="{Binding VisRequireProject}">
-            <xtk:PropertyGrid SelectedObject="{Binding Mode=TwoWay, Path=ProjectDescriptor}" />
+            <xtk:PropertyGrid ShowSearchBox="False" ShowTitle="False" ShowSortOptions="False"
+                              SelectedObject="{Binding Mode=TwoWay, Path=ProjectDescriptor}" />
           </Grid>
         </Grid>
       </TabItem>

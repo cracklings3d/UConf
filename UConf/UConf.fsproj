@@ -7,6 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="Module.fs" />
+        <Compile Include="Plugin.fs" />
         <Compile Include="Project.fs" />
         <Compile Include="User.fs" />
         <Compile Include="UConf.fs" />
@@ -15,6 +17,7 @@
     <ItemGroup>
         <PackageReference Include="Elmish.WPF" Version="4.0.0-beta-45" />
         <PackageReference Include="FSharp.Data" Version="4.2.9" />
+        <PackageReference Include="FSharp.Json" Version="0.4.1" />
         <PackageReference Include="ModernWpfUI" Version="0.9.7-preview.2" />
     </ItemGroup>
 
