@@ -27,14 +27,14 @@ let parseLoadingPhase str =
   | "" -> Unspecified
   | _ -> failwith "Invalid Loading Phase"
 
-type Descriptor() =
+type Ref() =
   member val Name: String = "" with get, set
   member val Type: Type = Type.Unspecified with get, set
   member val LoadingPhase: LoadingPhase = LoadingPhase.Unspecified with get, set
   member val AdditionalDependencies: String seq Option = None with get, set
 
-let parseDescriptor (j: JsonValue) =
-  let d = Descriptor()
+let parseRef (j: JsonValue) =
+  let d = Ref()
 
   d.Name <-
     j?Name
